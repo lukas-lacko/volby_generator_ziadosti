@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prezidentské voľby 2024 - E-mailová žiadosť o hlasovací preukaz</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            height: 100vh;
+        }
+
+        .form-container {
+            max-width: 100%;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        #openEmailClientBtn {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        #generatedEmail {
+            white-space: pre-wrap;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #googleIt {
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="form-container">
+                    <form id="emailForm">
+                        <h3 class="text-center mb-2">Prezidentské voľby 2024 - E-mailová žiadosť o hlasovací preukaz</h2>
+
+                        <div class="form-group">
+                            <label for="meno">Meno a priezvisko:</label>
+                            <input type="text" id="meno" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="rodneCislo">Rodné Číslo:</label>
+                            <input type="text" id="rodneCislo" class="form-control" required>
+                        </div>
+            
+                        <div class="form-group">
+                            <label for="statnaPrislusnost">Štátna Príslušnosť:</label>
+                            <input type="text" id="statnaPrislusnost" class="form-control" required>
+                        </div>
+            
+                        <div class="form-group">
+                            <label for="adresaTrvalehoPobytu">Adresa Trvalého Pobytu (obec, ulica, číslo domu):</label>
+                            <input type="text" id="adresaTrvalehoPobytu" class="form-control" required>
+                        </div>
+            
+                        <div class="form-group">
+                            <label for="adresaDorucenia">Adresa, na ktorú obec doručí hlasovací preukaz (ak je odlišná od adresy trvalého pobytu):</label>
+                            <input type="text" id="adresaDorucenia" class="form-control" required>
+                        </div>
+
+                        <button type="button" onclick="generateEmail()" class="btn btn-success">Vygenerovať text žiadosti</button>
+                        <div>Formulár založený na <a href="https://www.minv.sk/?p24-info11" target="_blank">informáciach ministersta vnútra</a></div>
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <p>Žiadosť o zaslanie hlasovacieho preukazu</p>
+                <pre id="generatedEmail"></pre>
+                <button type="button" onclick="copyToClipboard()" class="btn btn-primary">Skopírovať text žiadosti do schránky</button>
+                <button type="button" onclick="openEmailClient()" class="btn btn-primary" id="openEmailClientBtn">Odošli na email svojej obce</button>
+                <div id="googleIt"></div>
+            </div>
+
+            
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+    
+    function generateEmail() {
+                    var meno = document.getElementById('meno').value;
+                    var rodneCislo = document.getElementById('rodneCislo').value;
+                    var statnaPrislusnost = document.getElementById('statnaPrislusnost').value;
+                    var adresaTrvalehoPobytu = document.getElementById('adresaTrvalehoPobytu').value;
+
+                    var adresaDorucenia = document.getElementById('adresaDorucenia').value || adresaTrvalehoPobytu;
+
+                    var emailBody = `Dobrý deň,\n\nprosím o vydanie hlasovacieho preukazu na 1. aj 2. kolo prezidentských volieb.\n\nMoje osobné údaje sú:\n- <strong>Meno a priezvisko</strong>: ${meno}\n- <strong>Rodné Číslo</strong>: ${rodneCislo}\n- <strong>Štátna Príslušnosť</strong>: ${statnaPrislusnost}\n- <strong>Adresa Trvalého Pobytu</strong>: ${adresaTrvalehoPobytu}\n\nProsím o <strong>doručenie preukazu na adresu</strong>: ${adresaDorucenia}\n\nS pozdravom,\n${meno}`;
+
+                    document.getElementById('generatedEmail').innerHTML = emailBody;
+                    document.getElementById('googleIt').innerHTML = extractValue();
+
+
+                }
+
+                function copyToClipboard() {
+                    var generatedEmail = document.getElementById('generatedEmail');
+                    var range = document.createRange();
+                    range.selectNode(generatedEmail);
+                    window.getSelection().removeAllRanges();
+                    window.getSelection().addRange(range);
+                    document.execCommand('copy');
+                    window.getSelection().removeAllRanges();
+                    alert('Text e-mailu bol skopírovaný do schránky');
+                }
+
+                function openEmailClient() {
+                    var generatedEmailContent = document.getElementById('generatedEmail').innerText;
+                    var subject = encodeURIComponent('Žiadosť o zaslanie hlasovacieho preukazu');
+                    var body = encodeURIComponent(generatedEmailContent);
+                    window.location.href = 'mailto:?subject=' + subject + '&body=' + body;
+                }
+
+                function extractValue() {
+
+                    // Get the current value from the input field
+                    var inputValue = adresaTrvalehoPobytu.value;
+
+                    // Split the value by comma
+                    var valuesArray = inputValue.split(',');
+
+                    // Extract the value just before the first comma (trim to remove leading/trailing whitespaces)
+                    var extractedValue = valuesArray[0].trim();
+
+                    var googleLink =`<a href="https://www.google.com/search?q=obec+${extractedValue}+kontakt" target="_blank">Vygoogliť kontakt na obec</a>`
+
+                    return googleLink;
+                }
+
+            
+    </script>
+
+</body>
+</html>
