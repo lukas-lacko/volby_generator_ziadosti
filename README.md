@@ -1,0 +1,1 @@
+# volby_generator_ziadosti
